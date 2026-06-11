@@ -13,5 +13,19 @@
       "warm"
     ],
     "file": "presets/high-harmony-4b5c86.tch"
+  },
+  {
+    "name": "TWO LOW2",
+    "author": "NickeW",
+    "authorHash": "df4dc288c4e89afe361d0da8bcecf90972f57ef346aa38f6bb81e4c34b0ac311",
+    "shortDesc": "Two low harmonies",
+    "desc": "This can be used with a bla bla",
+    "categories": [
+      "Hardtune"
+    ],
+    "keywords": [
+      "Warm"
+    ],
+    "file": "presets/two-low2-58e1b4.tch"
   }
 ]
