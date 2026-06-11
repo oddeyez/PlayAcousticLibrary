@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "name": "SULTANS OFSWNG",
+    "author": "TC Helicon",
+    "shortDesc": "Sultans of Swing — clean amp with lush modulation and harmony",
+    "desc": "This is the SULTANS OF SWING preset from the Play Electric Factory Pack, shared here as a reference example. A clean amp tone with a slow, lush modulation effect that captures the warm, slightly wet character of the original recording. The harmony voice adds depth on the chorus sections. Works well on a single-coil guitar — a Stratocaster or Telecaster is ideal — with a light picking touch. Keep your input gain low to let the clean amp character come through.",
+    "categories": ["Harmony", "Character", "Songs"],
+    "keywords": ["sultans of swing", "dire straits", "knopfler", "clean amp", "modulation", "classic rock", "factory"],
+    "file": "presets/electric/sultans-ofswing-51a1f1.tch"
+  }
+]
