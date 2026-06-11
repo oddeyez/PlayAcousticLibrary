@@ -1,0 +1,215 @@
+name: Process preset submission
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  issues: write
+
+# Queue concurrent submissions instead of running in parallel to avoid JSON conflicts
+concurrency:
+  group: library-writes
+  cancel-in-progress: false
+
+jobs:
+  process:
+    if: contains(fromJSON('["community-preset-acoustic","community-preset-electric","community-edit","community-remove"]'), github.event.label.name)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Process preset
+        id: process
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const crypto = require('crypto');
+
+            const label = context.payload.label.name;
+            const body = context.payload.issue.body || '';
+
+            // ── Parsers ──────────────────────────────────────────────────────
+            function field(name) {
+              const m = body.match(new RegExp(`\\*\\*${name}:\\*\\*[ \\t]*(.+)`, 'i'));
+              return m ? m[1].trim() : '';
+            }
+            // Content between "**Name:**\n" and next bold field or "---"
+            function multiField(text, name) {
+              const m = text.match(new RegExp(`\\*\\*${name}:\\*\\*\\n([\\s\\S]*?)(?=\\n\\*\\*[A-Z]|\\n---|$)`));
+              return m ? m[1].trim() : '';
+            }
+            function listField(name) {
+              const v = field(name);
+              if (!v || v === '—') return [];
+              return v.split(',').map(s => s.trim()).filter(Boolean);
+            }
+            function parseB64(text) {
+              const m = text.match(/```[\r\n]+([A-Za-z0-9+/=\r\n]+?)[\r\n]+```/);
+              return m ? m[1].replace(/[\r\n]/g, '') : null;
+            }
+            function loadIndex(path) {
+              try { return JSON.parse(fs.readFileSync(path, 'utf8')); } catch { return []; }
+            }
+
+            // ── New submission ───────────────────────────────────────────────
+            if (label === 'community-preset-acoustic' || label === 'community-preset-electric') {
+              const product = label === 'community-preset-electric' ? 'electric' : 'acoustic';
+              const presetName = field('Preset name');
+              const author = field('Author');
+              const categories = listField('Categories');
+              const keywords = listField('Keywords');
+              const shortDesc = field('Short description');
+              const desc = multiField(body, 'Full description');
+              const authorHashMatch = body.match(/\*\*Author hash:\*\* `([a-f0-9]{64})`/);
+              const authorHash = authorHashMatch ? authorHashMatch[1] : null;
+
+              const b64 = parseB64(body);
+              if (!b64) { core.setFailed('No preset data found in issue body'); return; }
+              if (!presetName) { core.setFailed('No preset name found in issue body'); return; }
+
+              const slug = presetName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+              const shortHash = crypto.createHash('sha1').update(b64).digest('hex').slice(0, 6);
+              const filename = `presets/${slug}-${shortHash}.tch`;
+
+              fs.mkdirSync('presets', { recursive: true });
+              fs.writeFileSync(filename, Buffer.from(b64, 'base64'));
+
+              const entry = { name: presetName, author };
+              if (authorHash) entry.authorHash = authorHash;
+              entry.shortDesc = shortDesc;
+              if (desc && desc !== '—') entry.desc = desc;
+              if (categories.length) entry.categories = categories;
+              if (keywords.length) entry.keywords = keywords;
+              entry.file = filename;
+
+              const indexPath = `${product}.json`;
+              const index = loadIndex(indexPath);
+              index.push(entry);
+              fs.writeFileSync(indexPath, JSON.stringify(index, null, 2) + '\n');
+
+              core.setOutput('commit_msg', `Add preset: ${presetName} by ${author}`);
+              core.setOutput('comment', `✅ **"${presetName}"** has been added to the ${product} library. It will appear in the editor's community library on next refresh.`);
+            }
+
+            // ── Edit (update metadata or replace preset data) ────────────────
+            else if (label === 'community-edit') {
+              const action = field('Action');
+              const fileRef = field('File');
+              const verifiedMatch = body.match(/author code hash matches `([a-f0-9]{64})`/);
+              const claimedHash = verifiedMatch ? verifiedMatch[1] : null;
+
+              // Find entry across both indexes
+              let indexPath, index, entryIdx;
+              for (const product of ['acoustic', 'electric']) {
+                const path = `${product}.json`;
+                const idx = loadIndex(path);
+                const i = idx.findIndex(e => e.file === fileRef);
+                if (i !== -1) { indexPath = path; index = idx; entryIdx = i; break; }
+              }
+              if (entryIdx === undefined) { core.setFailed(`Preset not found in any index: ${fileRef}`); return; }
+
+              const entry = index[entryIdx];
+              if (entry.authorHash && entry.authorHash !== claimedHash) {
+                core.setFailed('Author hash verification failed — not updating');
+                return;
+              }
+
+              if (action === 'Update metadata') {
+                const after = body.split('\n---\n').slice(1).join('\n---\n');
+                const shortDesc = field('Short description') || (after.match(/\*\*Short description:\*\*[ \t]*(.+)/) || [])[1]?.trim();
+                const desc = multiField(after, 'Full description');
+                const catsStr = (after.match(/\*\*Categories:\*\*[ \t]*(.+)/) || [])[1]?.trim();
+                const kwdsStr = (after.match(/\*\*Keywords:\*\*[ \t]*(.+)/) || [])[1]?.trim();
+
+                if (shortDesc) entry.shortDesc = shortDesc;
+                if (desc && desc !== '—') entry.desc = desc;
+                if (catsStr !== undefined) entry.categories = catsStr === '—' ? [] : catsStr.split(',').map(s => s.trim()).filter(Boolean);
+                if (kwdsStr !== undefined) entry.keywords = kwdsStr === '—' ? [] : kwdsStr.split(',').map(s => s.trim()).filter(Boolean);
+
+                index[entryIdx] = entry;
+                fs.writeFileSync(indexPath, JSON.stringify(index, null, 2) + '\n');
+
+                core.setOutput('commit_msg', `Update metadata: ${entry.name}`);
+                core.setOutput('comment', `✅ Metadata for **"${entry.name}"** has been updated.`);
+              }
+              else if (action === 'Replace preset data') {
+                const b64 = parseB64(body);
+                if (!b64) { core.setFailed('No replacement preset data found in issue body'); return; }
+
+                const replacementName = field('Replacement preset name');
+                fs.writeFileSync(fileRef, Buffer.from(b64, 'base64'));
+                if (replacementName) entry.name = replacementName;
+
+                index[entryIdx] = entry;
+                fs.writeFileSync(indexPath, JSON.stringify(index, null, 2) + '\n');
+
+                core.setOutput('commit_msg', `Replace preset data: ${entry.name}`);
+                core.setOutput('comment', `✅ Preset data for **"${entry.name}"** has been replaced.`);
+              }
+              else {
+                core.setFailed(`Unknown action: ${action}`);
+              }
+            }
+
+            // ── Remove ───────────────────────────────────────────────────────
+            else if (label === 'community-remove') {
+              const fileRef = field('File');
+              const verifiedMatch = body.match(/author code hash matches `([a-f0-9]{64})`/);
+              const claimedHash = verifiedMatch ? verifiedMatch[1] : null;
+
+              let indexPath, index, entryIdx;
+              for (const product of ['acoustic', 'electric']) {
+                const path = `${product}.json`;
+                const idx = loadIndex(path);
+                const i = idx.findIndex(e => e.file === fileRef);
+                if (i !== -1) { indexPath = path; index = idx; entryIdx = i; break; }
+              }
+              if (entryIdx === undefined) { core.setFailed(`Preset not found: ${fileRef}`); return; }
+
+              const entry = index[entryIdx];
+              if (entry.authorHash && entry.authorHash !== claimedHash) {
+                core.setFailed('Author hash verification failed — not removing');
+                return;
+              }
+
+              index.splice(entryIdx, 1);
+              fs.writeFileSync(indexPath, JSON.stringify(index, null, 2) + '\n');
+              try { fs.unlinkSync(fileRef); } catch {}
+
+              core.setOutput('commit_msg', `Remove preset: ${entry.name}`);
+              core.setOutput('comment', `✅ **"${entry.name}"** has been removed from the library.`);
+            }
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add acoustic.json electric.json presets/
+          git diff --staged --quiet || git commit -m "${{ steps.process.outputs.commit_msg }}"
+          git push
+
+      - name: Close issue with comment
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const success = '${{ steps.process.outcome }}' === 'success';
+            const comment = success
+              ? `${{ steps.process.outputs.comment }}`
+              : `❌ Automated processing failed. The maintainer will review this manually.\n\n\`\`\`\n${{ steps.process.outputs.error }}\n\`\`\``;
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.payload.issue.number,
+              body: comment
+            });
+            if (success) {
+              await github.rest.issues.update({
+                ...context.repo,
+                issue_number: context.payload.issue.number,
+                state: 'closed'
+              });
+            }
