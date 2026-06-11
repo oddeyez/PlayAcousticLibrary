@@ -7,5 +7,50 @@
     "categories": ["Harmony", "Pop", "Country"],
     "keywords": ["warm", "clean", "third", "folk", "ballad", "condenser"],
     "file": "presets/acoustic/warm-third-sample.tch"
+  },
+  {
+    "name": "HIGH FIFTH",
+    "author": "Sarah Connell",
+    "shortDesc": "Bright fifth harmony — cuts through any mix",
+    "desc": "A tight harmony a perfect fifth above, dialled in on a Takamine electro-acoustic with a piezo pickup running direct. Bright and present, designed to sit on top of a full band mix without getting lost. Best for uptempo pop and country songs with a strong rhythmic drive. The Humanize knob is at about 40% — bring it up further if your vocal delivery is very legato.",
+    "categories": ["Harmony", "Pop", "Country"],
+    "keywords": ["bright", "fifth", "piezo", "uptempo", "country", "band"],
+    "file": "presets/acoustic/high-fifth-placeholder.tch"
+  },
+  {
+    "name": "FOLK DUO",
+    "author": "James Hartley",
+    "shortDesc": "Natural two-part harmony — third and fifth stacked",
+    "desc": "Stacked third-and-fifth harmony that mimics a traditional two-voice folk arrangement. Built on a mahogany dreadnought with a small-diaphragm condenser about 30cm from the soundhole. The two voices are well separated in level so the third sits closer and the fifth hangs further back. Works particularly well on songs in major keys with a moderate tempo. Sounds full even with just acoustic guitar accompanying.",
+    "categories": ["Harmony", "Songs"],
+    "keywords": ["folk", "two-part", "stacked", "mahogany", "dreadnought", "natural"],
+    "file": "presets/acoustic/folk-duo-placeholder.tch"
+  },
+  {
+    "name": "ROOM VERB",
+    "author": "Maja Lindqvist",
+    "shortDesc": "Warm room reverb — sounds like a small live room",
+    "desc": "A lush room reverb with a medium pre-delay and a warm, slightly dark tail. Originally dialled in for unplugged performances in a 50-seat venue with reflective walls. The reverb is long enough to give depth but short enough not to smear lyrics at mid-tempo. Lower the Mix for softer passages, raise it for big choruses. Particularly flattering on a nylon-string guitar where the drier sound can feel thin in a live setting.",
+    "categories": ["Reverb"],
+    "keywords": ["room", "live", "warm", "dark", "nylon", "venue", "unplugged"],
+    "file": "presets/acoustic/room-verb-placeholder.tch"
+  },
+  {
+    "name": "HARDTUNE POP",
+    "author": "Leo Kim",
+    "shortDesc": "Tight hardtune effect — pitch-corrected pop vocal",
+    "desc": "A punchy, noticeable hardtune set to C major scale. Designed for modern pop productions where the pitch correction is part of the sound rather than hidden behind it. Works best when you are singing reasonably in tune already — hardtune is not a replacement for pitch accuracy, it just adds the characteristic stepped quality. Tested on an SM58 dynamic microphone at close range. Retune speed is fast; ease it back if you want a smoother, more melodic result.",
+    "categories": ["Hardtune", "Pop", "Character"],
+    "keywords": ["hardtune", "autotune", "pop", "modern", "SM58", "dynamic", "stepped"],
+    "file": "presets/acoustic/hardtune-pop-placeholder.tch"
+  },
+  {
+    "name": "LOW ECHO",
+    "author": "Tom Ashby",
+    "shortDesc": "Slapback echo with a low-cut — classic Americana feel",
+    "desc": "A single slapback echo tuned for Americana and roots music — think 1950s tape echo, not modern digital delay. The low-cut on the repeat keeps the bottom from getting muddy when you are playing open-chord rhythm guitar. Best on a round-wound steel string with a pick. The echo is timed roughly to a dotted-eighth at 100 BPM; adjust your playing tempo to feel how it locks in. Pair with a subtle room verb for extra depth.",
+    "categories": ["Echo", "Songs", "Character"],
+    "keywords": ["slapback", "americana", "roots", "tape", "echo", "low-cut", "classic"],
+    "file": "presets/acoustic/low-echo-placeholder.tch"
   }
 ]
