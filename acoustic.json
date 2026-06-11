@@ -27,5 +27,20 @@
       "Warm"
     ],
     "file": "presets/two-low2-58e1b4.tch"
+  },
+  {
+    "name": "TAPE ECHO NW",
+    "author": "NickeW",
+    "authorHash": "df4dc288c4e89afe361d0da8bcecf90972f57ef346aa38f6bb81e4c34b0ac311",
+    "shortDesc": "Tape Echo by Niklas W",
+    "desc": "Sounds like a tape recorder",
+    "categories": [
+      "Doubling",
+      "Megaphone"
+    ],
+    "keywords": [
+      "warm"
+    ],
+    "file": "presets/tape-echo-nw-291c4d.tch"
   }
 ]
