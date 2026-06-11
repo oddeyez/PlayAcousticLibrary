@@ -2,7 +2,7 @@ name: Process preset submission
 
 on:
   issues:
-    types: [labeled]
+    types: [opened, labeled]
 
 permissions:
   contents: write
@@ -15,7 +15,15 @@ concurrency:
 
 jobs:
   process:
-    if: contains(fromJSON('["community-preset-acoustic","community-preset-electric","community-edit","community-remove"]'), github.event.label.name)
+    if: |
+      contains(fromJSON('["community-preset-acoustic","community-preset-electric","community-edit","community-remove"]'),
+        github.event.label.name || '') ||
+      (github.event.action == 'opened' && (
+        contains(toJSON(github.event.issue.labels), 'community-preset-acoustic') ||
+        contains(toJSON(github.event.issue.labels), 'community-preset-electric') ||
+        contains(toJSON(github.event.issue.labels), 'community-edit') ||
+        contains(toJSON(github.event.issue.labels), 'community-remove')
+      ))
     runs-on: ubuntu-latest
 
     steps:
@@ -29,7 +37,10 @@ jobs:
             const fs = require('fs');
             const crypto = require('crypto');
 
-            const label = context.payload.label.name;
+            const PRESET_LABELS = ['community-preset-acoustic','community-preset-electric','community-edit','community-remove'];
+            const label = context.payload.label
+              ? context.payload.label.name
+              : (context.payload.issue.labels || []).map(l => l.name).find(n => PRESET_LABELS.includes(n));
             const body = context.payload.issue.body || '';
 
             // ── Parsers ──────────────────────────────────────────────────────
