@@ -12,7 +12,7 @@
     "keywords": [
       "warm"
     ],
-    "file": "presets/high-harmony-4b5c86.tch"
+    "file": "presets/acoustic/high-harmony-4b5c86.tch"
   },
   {
     "name": "TWO LOW2",
@@ -26,7 +26,7 @@
     "keywords": [
       "Warm"
     ],
-    "file": "presets/two-low2-58e1b4.tch"
+    "file": "presets/acoustic/two-low2-58e1b4.tch"
   },
   {
     "name": "TAPE ECHO NW",
@@ -41,6 +41,6 @@
     "keywords": [
       "warm"
     ],
-    "file": "presets/tape-echo-nw-291c4d.tch"
+    "file": "presets/acoustic/tape-echo-nw-291c4d.tch"
   }
 ]
