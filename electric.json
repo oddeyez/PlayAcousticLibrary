@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "name": "GRIT DOUBLE",
+    "author": "Niklas Wallin",
+    "shortDesc": "Tight doubler with grit — thickens a single-coil lead",
+    "desc": "A close doubler that adds body and edge to a lead vocal over electric guitar. Dialled in with a single-coil guitar (Strat or Tele) direct into the device, medium input gain. The subtle pitch variation gives it a tape-doubled character rather than a clinical copy. Works well for rock, blues and rootsy styles where a big, live vocal sound matters more than pristine accuracy. Bring the Mix knob down slightly if the doubling effect is too obvious in your room.",
+    "categories": ["Doubling", "Rock", "Alternative"],
+    "keywords": ["grit", "double", "single-coil", "rock", "blues", "thick", "tape"],
+    "file": "presets/electric/grit-double-sample.tch"
+  }
+]

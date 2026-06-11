@@ -1,46 +1,11 @@
 [
   {
-    "name": "HIGH HARMONY",
-    "author": "NickeW",
-    "authorHash": "df4dc288c4e89afe361d0da8bcecf90972f57ef346aa38f6bb81e4c34b0ac311",
-    "shortDesc": "High Harmony",
-    "desc": "High Harmony from Library",
-    "categories": [
-      "Showcase",
-      "Hardtune"
-    ],
-    "keywords": [
-      "warm"
-    ],
-    "file": "presets/acoustic/high-harmony-4b5c86.tch"
-  },
-  {
-    "name": "TWO LOW2",
-    "author": "NickeW",
-    "authorHash": "df4dc288c4e89afe361d0da8bcecf90972f57ef346aa38f6bb81e4c34b0ac311",
-    "shortDesc": "Two low harmonies",
-    "desc": "This can be used with a bla bla",
-    "categories": [
-      "Hardtune"
-    ],
-    "keywords": [
-      "Warm"
-    ],
-    "file": "presets/acoustic/two-low2-58e1b4.tch"
-  },
-  {
-    "name": "TAPE ECHO NW",
-    "author": "NickeW",
-    "authorHash": "df4dc288c4e89afe361d0da8bcecf90972f57ef346aa38f6bb81e4c34b0ac311",
-    "shortDesc": "Tape Echo by Niklas W",
-    "desc": "Sounds like a tape recorder",
-    "categories": [
-      "Doubling",
-      "Megaphone"
-    ],
-    "keywords": [
-      "warm"
-    ],
-    "file": "presets/acoustic/tape-echo-nw-291c4d.tch"
+    "name": "WARM THIRD",
+    "author": "Niklas Wallin",
+    "shortDesc": "Smooth third-interval harmony for singer-songwriters",
+    "desc": "A clean harmony a major third above the lead vocal. Works well on steel-string acoustics with a condenser microphone in a treated room. Suited to folk, pop and country styles where you want a second voice that supports without fighting the lead. Try it on ballads and mid-tempo songs — it sits back nicely in a full mix. Humanize is set low to keep it tight; raise it slightly if you want a more natural, breathier feel.",
+    "categories": ["Harmony", "Pop", "Country"],
+    "keywords": ["warm", "clean", "third", "folk", "ballad", "condenser"],
+    "file": "presets/acoustic/warm-third-sample.tch"
   }
 ]
