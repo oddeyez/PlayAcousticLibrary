@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "name": "HIGH HARMONY",
+    "author": "NickeW",
+    "authorHash": "df4dc288c4e89afe361d0da8bcecf90972f57ef346aa38f6bb81e4c34b0ac311",
+    "shortDesc": "High Harmony",
+    "desc": "High Harmony from Library",
+    "categories": [
+      "Showcase",
+      "Hardtune"
+    ],
+    "keywords": [
+      "warm"
+    ],
+    "file": "presets/high-harmony-4b5c86.tch"
+  }
+]
