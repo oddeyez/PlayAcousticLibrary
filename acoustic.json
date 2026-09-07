@@ -2,10 +2,48 @@
   {
     "name": "HOTEL CALIFORN",
     "author": "TC Helicon",
-    "shortDesc": "Classic Hotel California feel — BodyRez, Plate Reverb, High & Low chorus harmony",
-    "desc": "This is the CALI HOTEL preset from the Play Acoustic Factory Pack, shared here as a reference example. It features BodyRez for acoustic guitar body resonance, a warm Plate Reverb, and two harmony voices — a High and a Low — tuned for the chorus of Hotel California. Works best with a steel-string acoustic through a dynamic or condenser microphone. Load the preset, strum those opening arpeggios and let the harmony voices fill out the sound.",
-    "categories": ["Harmony", "Reverb", "Songs"],
-    "keywords": ["hotel california", "classic rock", "eagles", "bodyrез", "plate reverb", "chorus harmony", "factory"],
+    "shortDesc": "Classic Hotel California feel â BodyRez, Plate Reverb, High & Low chorus harmony",
+    "desc": "This is the CALI HOTEL preset from the Play Acoustic Factory Pack, shared here as a reference example. It features BodyRez for acoustic guitar body resonance, a warm Plate Reverb, and two harmony voices â a High and a Low â tuned for the chorus of Hotel California. Works best with a steel-string acoustic through a dynamic or condenser microphone. Load the preset, strum those opening arpeggios and let the harmony voices fill out the sound.",
+    "categories": [
+      "Harmony",
+      "Reverb",
+      "Songs"
+    ],
+    "keywords": [
+      "hotel california",
+      "classic rock",
+      "eagles",
+      "bodyrÐµÐ·",
+      "plate reverb",
+      "chorus harmony",
+      "factory"
+    ],
     "file": "presets/acoustic/cali-hotel-296a39.tch"
+  },
+  {
+    "name": "-2 OCT DEMON",
+    "author": "Jair",
+    "shortDesc": "Preset",
+    "desc": "Teste",
+    "categories": [
+      "Favorite",
+      "Showcase",
+      "Songs",
+      "Pop",
+      "Rock",
+      "Alternative",
+      "Country",
+      "Hip Hop/Rap",
+      "Dance",
+      "Echo",
+      "Doubling",
+      "Reverb",
+      "Harmony",
+      "Hardtune",
+      "Megaphone",
+      "Extreme",
+      "Character"
+    ],
+    "file": "presets/acoustic/2-oct-demon-575e0c.tch"
   }
 ]
